@@ -12,12 +12,12 @@ A tiny Bash utility that uses the currently playing song's album artwork from [k
 ## Installation
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/maxcurnyn/kewpaper.git
 cd kewpaper
 chmod +x kewpaper
 cp kewpaper ~/.local/bin/
 ```
 
-Make sure ~/.local/bin is in your $PATH.
+Make sure `~/.local/bin` is in your `$PATH`.
 
-The default monitor is eDP-1. Change it in the script if necessary.
+The default monitor is `eDP-1`. Change it in the script if necessary.
