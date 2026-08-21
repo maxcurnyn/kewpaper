@@ -21,3 +21,23 @@ cp kewpaper ~/.local/bin/
 Make sure `~/.local/bin` is in your `$PATH`.
 
 The default monitor is `eDP-1`. Change it in the script if necessary.
+
+## How to Use
+
+Start kewpaper:
+
+```bash
+kewpaper
+```
+
+Stop kewpaper:
+
+```bash
+kewpaper stop
+```
+
+Restart kewpaper (Stop existing background loop, start a fresh one):
+
+```bash
+kewpaper restart
+```
