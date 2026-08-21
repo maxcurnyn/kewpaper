@@ -16,6 +16,7 @@ git clone <repo-url>
 cd kewpaper
 chmod +x kewpaper
 cp kewpaper ~/.local/bin/
+```
 
 Make sure ~/.local/bin is in your $PATH.
 
