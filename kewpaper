@@ -1,0 +1,45 @@
+#!/bin/bash
+
+PIDFILE="$XDG_RUNTIME_DIR/kewpaper.pid"
+
+case "$1" in
+    stop)
+        if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+            kill "$(cat "$PIDFILE")"
+            rm -f "$PIDFILE"
+            echo "kewpaper stopped."
+        else
+            echo "kewpaper isn't running."
+            rm -f "$PIDFILE"
+        fi
+        ;;
+
+    start|"")
+        if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+            echo "kewpaper is already running."
+            exit 0
+        fi
+
+        nohup bash -c '
+            echo $$ > "$1"
+            while sleep 2; do
+                A=$(gdbus call --session --dest org.mpris.MediaPlayer2.kew --object-path /org/mpris/MediaPlayer2 --method org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player Metadata 2>/dev/null | sed -n "s/.*'\''mpris:artUrl'\'': <'\''file:\/\/\([^'\'']*\)'\''.*/\1/p")
+                if [ -n "$A" ] && [ "$A" != "$LAST" ] && [ -f "$A" ]; then
+                    hyprctl hyprpaper wallpaper "eDP-1,$A,contain"
+                    LAST="$A"
+                fi
+            done
+        ' _ "$PIDFILE" >/dev/null 2>&1 &
+
+        echo "kewpaper started."
+        ;;
+
+    restart)
+        "$0" stop
+        "$0" start
+        ;;
+
+    *)
+        echo "Usage: kewpaper {start|stop|restart}"
+        ;;
+esac
