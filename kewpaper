@@ -22,11 +22,37 @@ case "$1" in
 
         nohup bash -c '
             echo $$ > "$1"
-            while sleep 2; do
+            while sleep 0.5; do
                 A=$(gdbus call --session --dest org.mpris.MediaPlayer2.kew --object-path /org/mpris/MediaPlayer2 --method org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player Metadata 2>/dev/null | sed -n "s/.*'\''mpris:artUrl'\'': <'\''file:\/\/\([^'\'']*\)'\''.*/\1/p")
                 if [ -n "$A" ] && [ "$A" != "$LAST" ] && [ -f "$A" ]; then
-                    hyprctl hyprpaper wallpaper "eDP-1,$A,contain"
-                    LAST="$A"
+			BG="/tmp/kewpaper-bg.jpg"
+			FINAL="/tmp/kewpaper-final.jpg"
+
+magick "$A" \
+    -resize "3840x2400^" \
+    -gravity center \
+    -crop "3840x2400+0+0" \
+    -blur 0x40 \
+    -brightness-contrast -30x0 \
+    "$BG"
+
+#magick "$BG" \
+#    \( "$A" -resize "2000x2000" \) \
+#    -gravity center \
+#    -composite \
+#    "$FINAL"
+
+magick "$BG" \
+    \( "$A" -resize "2000x2000" \
+       \( +clone -background black -shadow 60x20+0+15 \) \
+       +swap -background none -layers merge \
+    \) \
+    -gravity center \
+    -composite \
+    "$FINAL"
+
+hyprctl hyprpaper wallpaper "eDP-1,$FINAL,cover"
+LAST="$A"
                 fi
             done
         ' _ "$PIDFILE" >/dev/null 2>&1 &
