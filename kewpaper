@@ -28,13 +28,26 @@ case "$1" in
 			BG="/tmp/kewpaper-bg.jpg"
 			FINAL="/tmp/kewpaper-final.jpg"
 
+
+# Definitely NOT full resolution (960x600) blurred part of the wallpaper. Probably gonna be a lot>
+# Yes, it is definitely a lot faster.
 magick "$A" \
-    -resize "3840x2400^" \
+    -resize "960x600^" \
     -gravity center \
-    -crop "3840x2400+0+0" \
-    -blur 0x40 \
+    -crop "960x600+0+0" \
+    -blur 0x20 \
     -brightness-contrast -30x0 \
+    -resize "3840x2400!" \
     "$BG"
+
+# Just gonna comment this out for now, but the chunk above should be a heck of a lot more efficient and much faster than this one.
+#magick "$A" \
+#    -resize "3840x2400^" \
+#    -gravity center \
+#    -crop "3840x2400+0+0" \
+#    -blur 0x40 \
+#    -brightness-contrast -30x0 \
+#    "$BG"
 
 #magick "$BG" \
 #    \( "$A" -resize "2000x2000" \) \
