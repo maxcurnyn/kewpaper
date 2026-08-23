@@ -2,6 +2,20 @@
 
 A tiny Bash utility that uses the currently playing song's album artwork from [kew](https://github.com/ravachol/kew) as a [hyprpaper](https://github.com/hyprwm/hyprpaper) wallpaper.
 
+## Examples
+
+![Example 1](screenshots/20260822_19h04m34s_grim.png)
+
+![Example 2](screenshots/20260822_19h05m09s_grim.png)
+
+![Example 3](screenshots/20260822_19h05m25s_grim.png)
+
+![Example 4](screenshots/20260822_19h05m45s_grim.png)
+
+![Example 5](screenshots/20260822_19h06m36s_grim.png)
+
+![Example 6](screenshots/20260822_19h08m16s_grim.png)
+
 ## Requirements
 
 - Hyprland
@@ -36,7 +50,7 @@ Stop kewpaper:
 kewpaper stop
 ```
 
-Restart kewpaper (Stop existing background loop, start a fresh one):
+Restart kewpaper (stops the existing background loop and starts a fresh one):
 
 ```bash
 kewpaper restart
